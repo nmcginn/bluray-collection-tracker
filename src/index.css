@@ -30,3 +30,63 @@ body {
   padding: 1rem;
   overflow-x: auto;
 }
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+button {
+  font: inherit;
+  background: #2a2e38;
+  color: #e8e8ea;
+  border: 1px solid #3a3f4c;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #3a3f4c;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login {
+  max-width: 480px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.login-form label {
+  color: #a0a0a8;
+  font-size: 0.9rem;
+}
+
+.login-form input {
+  font: inherit;
+  background: #1a1d24;
+  color: #e8e8ea;
+  border: 1px solid #2a2e38;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+}
+
+.login-form button {
+  margin-top: 0.5rem;
+}
+
+.error {
+  color: #ff6b6b;
+  margin: 0;
+}
