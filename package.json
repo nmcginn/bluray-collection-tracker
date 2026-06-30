@@ -1,0 +1,27 @@
+{
+  "name": "bluray-collection-tracker",
+  "version": "0.1.0",
+  "description": "Single-user web app to catalog a Blu-ray movie collection.",
+  "type": "module",
+  "scripts": {
+    "dev:web": "vite",
+    "dev:api": "wrangler pages dev public --port 8788",
+    "dev": "concurrently -n web,api -c blue,magenta \"npm:dev:web\" \"npm:dev:api\"",
+    "build": "vite build",
+    "preview": "wrangler pages dev dist",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "db:migrate": "wrangler d1 migrations apply bluray-tracker-db",
+    "db:migrate:local": "wrangler d1 migrations apply bluray-tracker-db --local"
+  },
+  "dependencies": {
+    "@zxing/browser": "^0.1.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "vite": "^6.0.7",
+    "wrangler": "^4.0.0"
+  }
+}
