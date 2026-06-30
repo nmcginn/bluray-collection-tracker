@@ -73,17 +73,17 @@ All data routes require a valid session cookie (401 otherwise).
 ## Phases
 
 ### Phase 0 — Scaffolding
-- [ ] Init `package.json`; install Vite + React, `wrangler`, `@zxing/browser`.
-- [ ] Vite + React frontend; `functions/` with a hello `/api` route.
-- [ ] `wrangler.toml` with D1 binding; create the D1 database.
-- [ ] `.gitignore` (`node_modules`, `.dev.vars`, `dist`), `.dev.vars` for local secrets.
-- [ ] `npm run dev` runs Vite + `wrangler pages dev`; a placeholder page loads.
+- [x] Init `package.json`; install Vite + React, `wrangler`, `@zxing/browser`.
+- [x] Vite + React frontend; `functions/` with a hello `/api` route.
+- [x] `wrangler.toml` with D1 binding; create the D1 database.
+- [x] `.gitignore` (`node_modules`, `.dev.vars`, `dist`), `.dev.vars` for local secrets.
+- [x] `npm run dev` runs Vite + `wrangler pages dev`; a placeholder page loads.
 
 ### Phase 1 — Auth (password gate)
-- [ ] `functions/_lib/auth.js`: HMAC-sign/verify session cookie with `SESSION_SECRET`.
-- [ ] `POST /api/login` (check `APP_PASSWORD`, set cookie), `POST /api/logout`.
-- [ ] Middleware/helper that rejects unauthenticated data requests with 401.
-- [ ] Login page; unauthenticated UI redirects to it; logout button.
+- [x] `functions/_lib/auth.js`: HMAC-sign/verify session cookie with `SESSION_SECRET`.
+- [x] `POST /api/login` (check `APP_PASSWORD`, set cookie), `POST /api/logout`.
+- [x] Middleware/helper that rejects unauthenticated data requests with 401.
+- [x] Login page; unauthenticated UI redirects to it; logout button.
 
 ### Phase 2 — Database & collection API
 - [ ] D1 migration for `movies` (with UNIQUE `imdb_id`).
