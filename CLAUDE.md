@@ -5,76 +5,98 @@ Guidance for working in this repository.
 ## Project
 
 **Blu-ray Collection Tracker** — a responsive web app for cataloging a personal
-movie (Blu-ray) collection. A single user can:
+movie (Blu-ray) collection. The owner can:
 
 - Add movies by **title** (search + pick the right match).
 - Add movies by **scanning the disc barcode** with the device camera.
 - Browse owned titles in a **gallery view** (poster grid).
 - **Search/filter** the gallery and **delete** titles.
 
-It is a **single-user, local-first** app — no accounts, no login. All data lives
-in a local SQLite database.
+It is a **single-user** app, deployed publicly but protected by a single password.
+There are no accounts — one password gates the whole app.
 
 ## Stack
 
-- **Frontend:** React + Vite, plain CSS (or CSS modules). Responsive, mobile-first.
-- **Backend:** Node.js + Express. Serves the API and (in production) the built
-  frontend.
-- **Database:** SQLite (via `better-sqlite3`). One file on disk.
-- **Movie metadata:** [OMDb API](https://www.omdbapi.com/) — proxied through the
-  backend so the API key never reaches the browser.
+Deployed entirely on **Cloudflare's free tier**:
+
+- **Frontend:** React + Vite, built to static assets and served by **Cloudflare
+  Pages**. Responsive, mobile-first.
+- **Backend/API:** **Cloudflare Pages Functions** (Workers runtime) under
+  `/functions/api/*`. **Not** Node/Express — this is the V8/Workers runtime, so use
+  the Fetch API and Web standards, not Node built-ins.
+- **Database:** **Cloudflare D1** (SQLite-compatible), accessed via the `env.DB`
+  binding in functions (`env.DB.prepare(...).bind(...).all()`), **not** a local
+  SQLite file or `better-sqlite3`.
+- **Movie metadata:** [OMDb API](https://www.omdbapi.com/) — called from the Worker
+  (server-side `fetch`) so the API key never reaches the browser.
 - **Barcode scanning:** `@zxing/browser` in the browser (camera → UPC/EAN string).
-- **UPC → title lookup:** a pluggable provider (see below). OMDb **cannot** resolve
-  a UPC, so a separate product-database lookup turns the scanned barcode into a
-  title we can then search in OMDb.
+- **UPC → title lookup:** a pluggable provider called from the Worker. OMDb
+  **cannot** resolve a UPC, so a separate product-database lookup turns the scanned
+  barcode into a title we can then search in OMDb.
 
 ## Architecture & conventions
 
-- **API keys stay server-side.** The browser never talks to OMDb or the UPC
-  provider directly. All external calls go through the Express backend, which
-  reads keys from environment variables (`.env`, never committed).
-- **Metadata source is abstracted.** External lookups live behind a small
-  interface (e.g. `server/services/metadata.js` for OMDb, `server/services/upc.js`
-  for the UPC provider) so a source can be swapped without touching routes.
-- **The DB is the source of truth for the collection.** OMDb is only queried when
-  adding a title; once added, the movie's details are stored locally so the
-  gallery renders without external calls and works offline.
-- **Keep it simple.** This is a personal tool — prefer straightforward code over
-  abstraction. No premature framework choices (no Redux, no ORM) unless a real
-  need appears.
+- **Workers runtime, not Node.** Functions run on V8. No `fs`, no `process.env` (use
+  the `env` binding passed to each function), no `better-sqlite3`. Use `fetch`,
+  `crypto.subtle`, and Web APIs. Keep dependencies Workers-compatible.
+- **Secrets live in Cloudflare, never in the browser or git.** OMDb key, UPC key,
+  the app password, and the cookie-signing secret are Cloudflare secrets / env
+  vars, read from `env` inside functions. All external API calls happen in the
+  Worker.
+- **Auth is a single-password gate.** A login endpoint checks the password against
+  `env.APP_PASSWORD` and sets a **signed (HMAC) session cookie** — stateless, no
+  session store. Functions verify the cookie before serving data. Keep this in one
+  shared helper (e.g. `functions/_lib/auth.js`).
+- **D1 is the source of truth for the collection.** OMDb is only queried when adding
+  a title; the movie's details are then stored in D1 so the gallery renders without
+  external calls.
+- **Metadata sources are abstracted.** OMDb and the UPC provider sit behind small
+  helpers (e.g. `functions/_lib/omdb.js`, `functions/_lib/upc.js`) so a source can be
+  swapped without touching route handlers.
+- **Keep it simple.** Personal tool — prefer straightforward code over abstraction.
+  No ORM, no client state library unless a real need appears.
 
 ## Layout (target)
 
 ```
-/server        Express API, services (OMDb, UPC), SQLite access
-/src           React frontend (components, pages)
-/data          SQLite database file (gitignored)
-PLAN.md        Phased implementation plan
+/src             React frontend (components, pages)
+/functions       Cloudflare Pages Functions
+  /api           API routes (movies, search, lookup, login)
+  /_lib          shared helpers (auth, omdb, upc, db)
+/migrations      D1 schema migrations (SQL)
+wrangler.toml    Cloudflare config (D1 binding, vars)
+PLAN.md          Phased implementation plan
 ```
 
-## Environment
+## Environment / secrets
 
-Copy `.env.example` to `.env` and fill in:
+Local dev uses a `.dev.vars` file (gitignored); production uses
+`wrangler secret put`. Needed values:
 
 - `OMDB_API_KEY` — free key from https://www.omdbapi.com/apikey.aspx
 - `UPC_PROVIDER_KEY` — key for the chosen UPC lookup provider (see PLAN.md)
-- `PORT` — backend port (default 3001)
+- `APP_PASSWORD` — the single login password
+- `SESSION_SECRET` — random string used to sign the session cookie
 
-Never commit `.env` or the SQLite file in `/data`.
+The D1 database binding (`DB`) is configured in `wrangler.toml`.
+Never commit `.dev.vars`.
 
 ## Commands
 
-> These are the intended scripts; add them to `package.json` as the app is built.
+> Intended scripts; add to `package.json` as the app is built.
 
-- `npm run dev` — run backend + Vite dev server (frontend proxies `/api` to backend).
-- `npm run build` — build the frontend for production.
-- `npm start` — run the backend serving the built frontend.
+- `npm run dev` — Vite dev server + `wrangler pages dev` for functions/D1 locally.
+- `npm run build` — build the frontend (`vite build`).
+- `npm run deploy` — `wrangler pages deploy` (or via Git-connected auto-deploy).
+- `npm run db:migrate` — apply D1 migrations (`wrangler d1 migrations apply`).
 - `npm test` — run tests.
 
 ## Working agreements
 
 - Validate and handle errors on every external API call (rate limits, no match,
   network failure) and surface a clear message to the UI.
+- Every data route must verify the session cookie first; unauthenticated requests
+  get a 401 and the UI redirects to login.
 - Don't block adding a movie on a poster being available — store what OMDb returns
   and degrade gracefully when fields are missing.
 - Prefer adding to PLAN.md and checking items off as phases complete.
