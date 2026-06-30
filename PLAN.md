@@ -86,10 +86,10 @@ All data routes require a valid session cookie (401 otherwise).
 - [x] Login page; unauthenticated UI redirects to it; logout button.
 
 ### Phase 2 — Database & collection API
-- [ ] D1 migration for `movies` (with UNIQUE `imdb_id`).
-- [ ] `functions/_lib/db.js` helpers over `env.DB`.
-- [ ] `GET /api/movies`, `DELETE /api/movies/:id`, `POST /api/movies`.
-- [ ] Adding a duplicate is a no-op / clear error.
+- [x] D1 migration for `movies` (with UNIQUE `imdb_id`).
+- [x] `functions/_lib/db.js` helpers over `env.DB`.
+- [x] `GET /api/movies`, `DELETE /api/movies/:id`, `POST /api/movies`.
+- [x] Adding a duplicate is a no-op / clear error.
 
 ### Phase 3 — Gallery view (read + delete)
 - [ ] Poster grid of owned titles, responsive.
