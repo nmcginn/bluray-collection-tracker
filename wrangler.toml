@@ -1,0 +1,18 @@
+# Cloudflare configuration for the Pages project + Functions.
+# Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+
+name = "bluray-collection-tracker"
+compatibility_date = "2026-06-30"
+pages_build_output_dir = "dist"
+
+# D1 database binding, available in functions as `env.DB`.
+# Create the database with:  wrangler d1 create bluray-tracker-db
+# then paste the returned database_id below (and into your Cloudflare dashboard).
+[[d1_databases]]
+binding = "DB"
+database_name = "bluray-tracker-db"
+database_id = "REPLACE_WITH_DATABASE_ID"
+
+# Non-secret vars can go here. Secrets (OMDB_API_KEY, UPC_PROVIDER_KEY,
+# APP_PASSWORD, SESSION_SECRET) are set with `wrangler pages secret put <NAME>`
+# for production and in `.dev.vars` for local development.

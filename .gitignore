@@ -1,0 +1,10 @@
+node_modules/
+dist/
+
+# Local Cloudflare/Wrangler state and local secrets
+.dev.vars
+.wrangler/
+
+# Logs / OS cruft
+npm-debug.log*
+.DS_Store

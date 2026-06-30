@@ -1,0 +1,7 @@
+# Copy this file to `.dev.vars` (gitignored) for local development.
+# In production these are set with: wrangler pages secret put <NAME>
+
+OMDB_API_KEY=your_omdb_key_here
+UPC_PROVIDER_KEY=your_upc_provider_key_here
+APP_PASSWORD=choose_a_login_password
+SESSION_SECRET=a_long_random_string_for_signing_cookies
