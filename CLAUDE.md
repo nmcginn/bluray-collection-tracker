@@ -100,3 +100,9 @@ Never commit `.dev.vars`.
 - Don't block adding a movie on a poster being available — store what OMDb returns
   and degrade gracefully when fields are missing.
 - Prefer adding to PLAN.md and checking items off as phases complete.
+- **Keep every `.md` file in lock step with the code, on every change.** Docs are
+  relied on here, not an afterthought. When you land a change: check off/update
+  `PLAN.md` phase items, update `README.md`'s status section and any setup/command
+  instructions that changed, and update `CLAUDE.md` itself if conventions or
+  architecture shift. Keep entries accurate and to-the-point — describe what's
+  actually true of the code today, not aspirational or historical detail.

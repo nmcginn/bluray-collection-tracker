@@ -14,7 +14,7 @@ body {
 }
 
 .app {
-  max-width: 720px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1.25rem;
 }
@@ -23,19 +23,16 @@ body {
   color: #a0a0a8;
 }
 
-.health pre {
-  background: #1a1d24;
-  border: 1px solid #2a2e38;
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-x: auto;
-}
-
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.app-header-actions {
+  display: flex;
+  gap: 0.75rem;
 }
 
 button {
@@ -89,4 +86,146 @@ button:disabled {
 .error {
   color: #ff6b6b;
   margin: 0;
+}
+
+.gallery {
+  margin-top: 1.5rem;
+}
+
+.gallery-search {
+  font: inherit;
+  width: 100%;
+  background: #1a1d24;
+  color: #e8e8ea;
+  border: 1px solid #2a2e38;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  background: #1a1d24;
+  border: 1px solid #2a2e38;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.movie-poster {
+  aspect-ratio: 2 / 3;
+  background: #12141a;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.movie-poster-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5a5f6c;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.movie-info {
+  padding: 0.75rem 0.75rem 0;
+  flex: 1;
+}
+
+.movie-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.movie-meta {
+  margin: 0;
+  color: #a0a0a8;
+  font-size: 0.85rem;
+}
+
+.movie-delete {
+  margin: 0.75rem;
+  border-color: #4a2a2e;
+}
+
+.movie-delete:hover {
+  background: #4a2a2e;
+}
+
+.add-movie {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #1a1d24;
+  border: 1px solid #2a2e38;
+  border-radius: 8px;
+}
+
+.add-movie-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.add-movie-form input {
+  font: inherit;
+  flex: 1;
+  background: #12141a;
+  color: #e8e8ea;
+  border: 1px solid #2a2e38;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+}
+
+.add-movie-results {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.add-movie-result {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.movie-poster.small {
+  width: 46px;
+  aspect-ratio: 2 / 3;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.movie-poster.small .movie-poster-placeholder {
+  font-size: 0.6rem;
+}
+
+.add-movie-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-movie-result-title {
+  margin: 0;
+}
+
+.add-movie-result button {
+  flex-shrink: 0;
 }

@@ -1,5 +1,6 @@
 import { requireAuth } from '../../_lib/auth.js';
 import { listMovies, insertMovie } from '../../_lib/db.js';
+import { getByImdbId, OmdbError } from '../../_lib/omdb.js';
 
 export async function onRequestGet(context) {
   const unauthorized = await requireAuth(context);
@@ -30,16 +31,22 @@ export async function onRequestPost(context) {
   }
 
   const imdbId = body && body.imdb_id;
-  const title = body && body.title;
   if (typeof imdbId !== 'string' || imdbId.trim() === '') {
     return Response.json({ error: 'imdb_id is required' }, { status: 400 });
   }
-  if (typeof title !== 'string' || title.trim() === '') {
-    return Response.json({ error: 'title is required' }, { status: 400 });
+
+  let details;
+  try {
+    details = await getByImdbId(env, imdbId.trim());
+  } catch (err) {
+    if (err instanceof OmdbError) {
+      return Response.json({ error: err.message }, { status: 502 });
+    }
+    return Response.json({ error: 'Failed to fetch movie details' }, { status: 500 });
   }
 
   try {
-    const movie = await insertMovie(env, body);
+    const movie = await insertMovie(env, details);
     return Response.json({ movie }, { status: 201 });
   } catch (err) {
     if (err.code === 'DUPLICATE') {
