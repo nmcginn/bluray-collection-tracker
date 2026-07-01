@@ -1,24 +1,16 @@
 import { useEffect, useState } from 'react';
 import Login from './components/Login.jsx';
+import Gallery from './components/Gallery.jsx';
 import { getSession, logout } from './lib/api.js';
 
 export default function App() {
   const [authed, setAuthed] = useState(null); // null = checking
-  const [health, setHealth] = useState({ status: 'loading' });
 
   useEffect(() => {
     getSession()
       .then((res) => setAuthed(res.authenticated))
       .catch(() => setAuthed(false));
   }, []);
-
-  useEffect(() => {
-    if (!authed) return;
-    fetch('/api/health')
-      .then((res) => res.json())
-      .then(setHealth)
-      .catch((err) => setHealth({ status: 'error', error: String(err) }));
-  }, [authed]);
 
   if (authed === null) {
     return (
@@ -45,11 +37,7 @@ export default function App() {
           Log out
         </button>
       </header>
-      <p className="tagline">Logged in. Collection gallery is up next.</p>
-      <section className="health">
-        <h2>API health</h2>
-        <pre>{JSON.stringify(health, null, 2)}</pre>
-      </section>
+      <Gallery />
     </main>
   );
 }

@@ -35,3 +35,11 @@ export function login(password) {
 export function logout() {
   return request('/api/logout', { method: 'POST' });
 }
+
+export function getMovies() {
+  return request('/api/movies');
+}
+
+export function deleteMovie(id) {
+  return request(`/api/movies/${id}`, { method: 'DELETE' });
+}

@@ -10,8 +10,10 @@ for architecture and conventions.
 
 ## Status
 
-**Phase 0 — Scaffolding (complete).** Vite + React frontend, a Cloudflare Pages
-Functions API (`/api/health`), and a D1 binding wired up and verified locally.
+**Phases 0-3 complete.** Password-gated auth, a D1-backed collection API, and a
+responsive poster gallery with client-side search and delete are all working
+locally. Next up: Phase 4 (add a movie by title via OMDb search). See
+[`PLAN.md`](./PLAN.md) for the full phase checklist.
 
 ## Tech stack
 
