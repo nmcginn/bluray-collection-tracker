@@ -23,19 +23,16 @@ body {
   color: #a0a0a8;
 }
 
-.health pre {
-  background: #1a1d24;
-  border: 1px solid #2a2e38;
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-x: auto;
-}
-
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.app-header-actions {
+  display: flex;
+  gap: 0.75rem;
 }
 
 button {
@@ -168,4 +165,67 @@ button:disabled {
 
 .movie-delete:hover {
   background: #4a2a2e;
+}
+
+.add-movie {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #1a1d24;
+  border: 1px solid #2a2e38;
+  border-radius: 8px;
+}
+
+.add-movie-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.add-movie-form input {
+  font: inherit;
+  flex: 1;
+  background: #12141a;
+  color: #e8e8ea;
+  border: 1px solid #2a2e38;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+}
+
+.add-movie-results {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.add-movie-result {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.movie-poster.small {
+  width: 46px;
+  aspect-ratio: 2 / 3;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.movie-poster.small .movie-poster-placeholder {
+  font-size: 0.6rem;
+}
+
+.add-movie-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-movie-result-title {
+  margin: 0;
+}
+
+.add-movie-result button {
+  flex-shrink: 0;
 }

@@ -98,10 +98,10 @@ All data routes require a valid session cookie (401 otherwise).
 - [x] Empty state ("No movies yet — add one").
 
 ### Phase 4 — Add by title
-- [ ] OMDb helper (`functions/_lib/omdb.js`) + `GET /api/search`.
-- [ ] "Add movie" UI: type title → candidate results (poster, year) → pick →
+- [x] OMDb helper (`functions/_lib/omdb.js`) + `GET /api/search`.
+- [x] "Add movie" UI: type title → candidate results (poster, year) → pick →
       `POST /api/movies` → appears in gallery.
-- [ ] Handle no-results, OMDb errors, duplicate-already-owned.
+- [x] Handle no-results, OMDb errors, duplicate-already-owned.
 
 ### Phase 5 — Add by barcode scan
 - [ ] Choose + integrate UPC provider (`functions/_lib/upc.js`) + `GET /api/lookup`.

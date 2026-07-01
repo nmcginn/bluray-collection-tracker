@@ -43,3 +43,14 @@ export function getMovies() {
 export function deleteMovie(id) {
   return request(`/api/movies/${id}`, { method: 'DELETE' });
 }
+
+export function searchTitles(title) {
+  return request(`/api/search?title=${encodeURIComponent(title)}`);
+}
+
+export function addMovie(imdbId) {
+  return request('/api/movies', {
+    method: 'POST',
+    body: JSON.stringify({ imdb_id: imdbId }),
+  });
+}

@@ -10,9 +10,10 @@ for architecture and conventions.
 
 ## Status
 
-**Phases 0-3 complete.** Password-gated auth, a D1-backed collection API, and a
-responsive poster gallery with client-side search and delete are all working
-locally. Next up: Phase 4 (add a movie by title via OMDb search). See
+**Phases 0-4 complete.** Password-gated auth, a D1-backed collection API, a
+responsive poster gallery with client-side search and delete, and an "Add
+movie" flow that searches OMDb by title and saves the pick are all working
+locally. Next up: Phase 5 (add a movie by scanning its barcode). See
 [`PLAN.md`](./PLAN.md) for the full phase checklist.
 
 ## Tech stack
@@ -31,7 +32,8 @@ locally. Next up: Phase 4 (add a movie by title via OMDb search). See
    npm install
    ```
 
-2. Copy local secrets and fill them in:
+2. Copy local secrets and fill them in (a real `OMDB_API_KEY` is required for
+   search/add to work — get a free one at https://www.omdbapi.com/apikey.aspx):
 
    ```sh
    cp .dev.vars.example .dev.vars
@@ -43,8 +45,8 @@ locally. Next up: Phase 4 (add a movie by title via OMDb search). See
    npm run dev
    ```
 
-   Open http://localhost:5173 — the page shows the API health check, including
-   whether the D1 binding is reachable.
+   Open http://localhost:5173 — log in, then browse/search/add/delete your
+   collection.
 
 ## One-time Cloudflare setup (before deploying)
 

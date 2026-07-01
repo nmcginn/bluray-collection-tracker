@@ -1,19 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
-import { getMovies, deleteMovie } from '../lib/api.js';
+import { useMemo, useState } from 'react';
+import { deleteMovie } from '../lib/api.js';
 
-export default function Gallery() {
-  const [movies, setMovies] = useState([]);
+export default function Gallery({ movies, loading, error, onDeleted }) {
   const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
-
-  useEffect(() => {
-    getMovies()
-      .then((res) => setMovies(res.movies))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
+  const [deleteError, setDeleteError] = useState(null);
 
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -25,12 +16,12 @@ export default function Gallery() {
     if (!window.confirm(`Remove "${movie.title}" from your collection?`)) return;
 
     setDeletingId(movie.id);
-    setError(null);
+    setDeleteError(null);
     try {
       await deleteMovie(movie.id);
-      setMovies((prev) => prev.filter((m) => m.id !== movie.id));
+      onDeleted(movie.id);
     } catch (err) {
-      setError(err.message);
+      setDeleteError(err.message);
     } finally {
       setDeletingId(null);
     }
@@ -52,7 +43,7 @@ export default function Gallery() {
         />
       )}
 
-      {error && <p className="error">{error}</p>}
+      {(error || deleteError) && <p className="error">{error || deleteError}</p>}
 
       {movies.length === 0 ? (
         <p className="tagline">No movies yet — add one to get started.</p>
