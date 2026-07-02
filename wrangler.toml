@@ -11,7 +11,7 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "bluray-tracker-db"
-database_id = "REPLACE_WITH_DATABASE_ID"
+database_id = "482018ac-8ce1-458f-aa60-1c0d5f902be0"
 
 # Non-secret vars can go here. Secrets (OMDB_API_KEY, UPC_PROVIDER_KEY,
 # APP_PASSWORD, SESSION_SECRET) are set with `wrangler pages secret put <NAME>`
