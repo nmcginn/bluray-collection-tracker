@@ -92,15 +92,30 @@ button:disabled {
   margin-top: 1.5rem;
 }
 
+.gallery-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
 .gallery-search {
   font: inherit;
-  width: 100%;
+  flex: 1 1 240px;
   background: #1a1d24;
   color: #e8e8ea;
   border: 1px solid #2a2e38;
   border-radius: 6px;
   padding: 0.6rem 0.75rem;
-  margin-bottom: 1.5rem;
+}
+
+.gallery-toolbar select {
+  font: inherit;
+  background: #1a1d24;
+  color: #e8e8ea;
+  border: 1px solid #2a2e38;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
 }
 
 .gallery-grid {
@@ -116,6 +131,24 @@ button:disabled {
   border: 1px solid #2a2e38;
   border-radius: 8px;
   overflow: hidden;
+}
+
+.movie-card-open {
+  display: block;
+  flex: 1; /* keeps the Remove button pinned to the card bottom */
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.movie-card-open:hover {
+  background: #20242e;
 }
 
 .movie-poster {
@@ -144,7 +177,6 @@ button:disabled {
 
 .movie-info {
   padding: 0.75rem 0.75rem 0;
-  flex: 1;
 }
 
 .movie-info h3 {
@@ -261,4 +293,91 @@ button:disabled {
 
 .add-movie-result button {
   flex-shrink: 0;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.modal {
+  position: relative;
+  background: #1a1d24;
+  border: 1px solid #2a2e38;
+  border-radius: 10px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.25rem 0.6rem;
+}
+
+.modal-body {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.modal-poster {
+  width: 180px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.modal-info {
+  min-width: 0;
+}
+
+.modal-info h2 {
+  margin: 0 0 0.25rem;
+  padding-right: 2rem; /* keep clear of the close button */
+}
+
+.modal-plot {
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.modal-facts {
+  margin: 0;
+}
+
+.modal-fact {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.modal-fact dt {
+  color: #a0a0a8;
+  flex-shrink: 0;
+  width: 6.5rem;
+}
+
+.modal-fact dd {
+  margin: 0;
+}
+
+@media (max-width: 540px) {
+  .modal-body {
+    flex-direction: column;
+  }
+
+  .modal-poster {
+    width: 140px;
+  }
 }

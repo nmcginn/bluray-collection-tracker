@@ -30,9 +30,11 @@ Deployed entirely on **Cloudflare's free tier**:
 - **Movie metadata:** [OMDb API](https://www.omdbapi.com/) — called from the Worker
   (server-side `fetch`) so the API key never reaches the browser.
 - **Barcode scanning:** `@zxing/browser` in the browser (camera → UPC/EAN string).
-- **UPC → title lookup:** a pluggable provider called from the Worker. OMDb
-  **cannot** resolve a UPC, so a separate product-database lookup turns the scanned
-  barcode into a title we can then search in OMDb.
+- **UPC → title lookup:** a pluggable provider called from the Worker (currently
+  **UPCitemdb**: keyless trial endpoint by default, paid endpoint when
+  `UPC_PROVIDER_KEY` is set). OMDb **cannot** resolve a UPC, so this
+  product-database lookup turns the scanned barcode into a title we can then
+  search in OMDb.
 
 ## Architecture & conventions
 
@@ -83,13 +85,12 @@ Never commit `.dev.vars`.
 
 ## Commands
 
-> Intended scripts; add to `package.json` as the app is built.
-
 - `npm run dev` — Vite dev server + `wrangler pages dev` for functions/D1 locally.
 - `npm run build` — build the frontend (`vite build`).
-- `npm run deploy` — `wrangler pages deploy` (or via Git-connected auto-deploy).
-- `npm run db:migrate` — apply D1 migrations (`wrangler d1 migrations apply`).
-- `npm test` — run tests.
+- `npm run deploy` — build + `wrangler pages deploy` (or via Git-connected auto-deploy).
+- `npm run db:migrate` — apply D1 migrations (`wrangler d1 migrations apply`);
+  `db:migrate:local` targets the local D1.
+- `npm test` — run the vitest unit tests (`functions/_lib/*.test.js`).
 
 ## Working agreements
 

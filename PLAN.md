@@ -118,11 +118,16 @@ All data routes require a valid session cookie (401 otherwise).
 
 ### Phase 6 — Deploy & polish
 - [ ] Connect repo to Cloudflare Pages (auto-deploy on push) or `wrangler pages deploy`.
-- [ ] Set production secrets (`wrangler secret put` for OMDb/UPC/password/session).
-- [ ] Apply D1 migrations to the production database.
-- [ ] Loading / error states across all flows; movie detail view.
-- [ ] Sort options (title, year, date added) and genre filter.
-- [ ] Basic tests for functions/helpers; README with setup + deploy steps.
+      *(Owner action — steps documented in README's deploy section.)*
+- [ ] Set production secrets (`wrangler pages secret put` for OMDb/UPC/password/session).
+      *(Owner action — documented in README; UPC key is optional.)*
+- [ ] Apply D1 migrations to the production database (`npm run db:migrate`).
+      *(Owner action — documented in README.)*
+- [x] Loading / error states across all flows; movie detail view (click a card
+      for plot, genre, director, cast, rating, barcode, date added).
+- [x] Sort options (title, year, date added) and genre filter.
+- [x] Basic tests for functions/helpers (`npm test`, vitest — auth, OMDb, UPC);
+      README with setup + deploy steps.
 
 ## Out of scope (for now)
 

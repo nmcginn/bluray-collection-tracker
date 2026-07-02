@@ -11,7 +11,8 @@
     "preview": "wrangler pages dev dist",
     "deploy": "npm run build && wrangler pages deploy dist",
     "db:migrate": "wrangler d1 migrations apply bluray-tracker-db",
-    "db:migrate:local": "wrangler d1 migrations apply bluray-tracker-db --local"
+    "db:migrate:local": "wrangler d1 migrations apply bluray-tracker-db --local",
+    "test": "vitest run"
   },
   "dependencies": {
     "@zxing/browser": "^0.1.5",
@@ -22,6 +23,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",
     "vite": "^6.0.7",
+    "vitest": "^4.1.9",
     "wrangler": "^4.0.0"
   }
 }
