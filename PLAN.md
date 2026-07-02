@@ -27,13 +27,15 @@ collection, deployed on Cloudflare's free tier behind a password gate. See
   confirms match → save`. The UPC step is imperfect, so the UI must let the user
   correct/confirm the matched title before saving.
 
-### UPC provider options (pick during Phase 5)
+### UPC provider (picked in Phase 5: UPCitemdb)
 
-- **UPCitemdb** — free trial tier (rate-limited); easy to start with.
-- **Barcode Lookup / go-upc** — richer data, paid.
-- Keep this behind `functions/_lib/upc.js` so the provider can be swapped. If no
-  provider is configured, the scan flow falls back to: show the decoded barcode and
-  let the user type the title manually.
+- **UPCitemdb** — the keyless free-trial endpoint (rate-limited, ~100 req/day) is
+  used when `UPC_PROVIDER_KEY` is unset; setting the key switches to the paid
+  endpoint. Fine for personal use.
+- Alternatives (Barcode Lookup / go-upc) can be swapped in behind
+  `functions/_lib/upc.js` without touching route handlers.
+- If a lookup fails, the scan flow falls back to: show the decoded barcode and let
+  the user search by title manually (the barcode is still saved with the pick).
 
 ## Data model
 
@@ -104,12 +106,15 @@ All data routes require a valid session cookie (401 otherwise).
 - [x] Handle no-results, OMDb errors, duplicate-already-owned.
 
 ### Phase 5 — Add by barcode scan
-- [ ] Choose + integrate UPC provider (`functions/_lib/upc.js`) + `GET /api/lookup`.
-- [ ] Camera scanner UI with `@zxing/browser` (request permission, handle
-      denial / no camera).
-- [ ] Scan → barcode → lookup → matched candidates → user confirms → save.
-- [ ] Fallback: if UPC lookup fails, show the barcode and route to title search.
-- [ ] Store the `barcode` on the saved row.
+- [x] Choose + integrate UPC provider (`functions/_lib/upc.js`) + `GET /api/lookup`.
+      Chose **UPCitemdb**: the keyless trial endpoint works out of the box; setting
+      `UPC_PROVIDER_KEY` switches to the paid endpoint.
+- [x] Camera scanner UI with `@zxing/browser` (request permission, handle
+      denial / no camera). Lazy-loaded so the decoder isn't in the main bundle.
+- [x] Scan → barcode → lookup → matched candidates → user confirms → save.
+- [x] Fallback: if UPC lookup fails, show the barcode and route to title search
+      (the barcode stays attached to whatever is added next).
+- [x] Store the `barcode` on the saved row.
 
 ### Phase 6 — Deploy & polish
 - [ ] Connect repo to Cloudflare Pages (auto-deploy on push) or `wrangler pages deploy`.

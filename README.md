@@ -10,11 +10,17 @@ for architecture and conventions.
 
 ## Status
 
-**Phases 0-4 complete.** Password-gated auth, a D1-backed collection API, a
-responsive poster gallery with client-side search and delete, and an "Add
-movie" flow that searches OMDb by title and saves the pick are all working
-locally. Next up: Phase 5 (add a movie by scanning its barcode). See
-[`PLAN.md`](./PLAN.md) for the full phase checklist.
+**Phases 0-5 complete.** Password-gated auth, a D1-backed collection API, a
+responsive poster gallery with client-side search and delete, an "Add movie"
+flow that searches OMDb by title, and a barcode scan flow (camera →
+UPC lookup via UPCitemdb → OMDb candidates → confirm) are all working locally.
+Next up: Phase 6 (deploy & polish). See [`PLAN.md`](./PLAN.md) for the full
+phase checklist.
+
+Barcode lookups use UPCitemdb's keyless trial endpoint by default (rate-limited
+to ~100/day); set `UPC_PROVIDER_KEY` to use the paid endpoint instead. If a
+lookup fails, the UI falls back to manual title search and still saves the
+scanned barcode with the movie you pick.
 
 ## Tech stack
 

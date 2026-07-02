@@ -175,6 +175,39 @@ button:disabled {
   border-radius: 8px;
 }
 
+.add-movie-modes {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.add-movie-modes button.active {
+  background: #3a3f4c;
+  border-color: #5a5f6c;
+}
+
+.scanner-video {
+  width: 100%;
+  max-height: 360px;
+  background: #000;
+  border-radius: 8px;
+  display: block;
+}
+
+.add-movie-barcode {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  color: #a0a0a8;
+  font-size: 0.9rem;
+}
+
+.add-movie-barcode button {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+}
+
 .add-movie-form {
   display: flex;
   gap: 0.75rem;

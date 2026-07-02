@@ -1,6 +1,7 @@
 import { requireAuth } from '../../_lib/auth.js';
 import { listMovies, insertMovie } from '../../_lib/db.js';
 import { getByImdbId, OmdbError } from '../../_lib/omdb.js';
+import { isValidBarcode } from '../../_lib/upc.js';
 
 export async function onRequestGet(context) {
   const unauthorized = await requireAuth(context);
@@ -35,6 +36,12 @@ export async function onRequestPost(context) {
     return Response.json({ error: 'imdb_id is required' }, { status: 400 });
   }
 
+  // Optional: set when the movie was added via the barcode scan flow.
+  const barcode = body.barcode ?? null;
+  if (barcode !== null && !isValidBarcode(barcode)) {
+    return Response.json({ error: 'barcode must be 8-14 digits' }, { status: 400 });
+  }
+
   let details;
   try {
     details = await getByImdbId(env, imdbId.trim());
@@ -46,7 +53,7 @@ export async function onRequestPost(context) {
   }
 
   try {
-    const movie = await insertMovie(env, details);
+    const movie = await insertMovie(env, { ...details, barcode });
     return Response.json({ movie }, { status: 201 });
   } catch (err) {
     if (err.code === 'DUPLICATE') {
