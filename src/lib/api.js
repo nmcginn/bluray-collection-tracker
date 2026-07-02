@@ -15,7 +15,9 @@ async function request(path, options = {}) {
 
   if (!res.ok) {
     const message = (body && body.error) || `Request failed (${res.status})`;
-    throw new Error(message);
+    const err = new Error(message);
+    err.body = body; // e.g. /api/lookup failures include barcode/product_title
+    throw err;
   }
 
   return body;
@@ -48,9 +50,13 @@ export function searchTitles(title) {
   return request(`/api/search?title=${encodeURIComponent(title)}`);
 }
 
-export function addMovie(imdbId) {
+export function addMovie(imdbId, barcode = null) {
   return request('/api/movies', {
     method: 'POST',
-    body: JSON.stringify({ imdb_id: imdbId }),
+    body: JSON.stringify({ imdb_id: imdbId, barcode }),
   });
+}
+
+export function lookupBarcode(barcode) {
+  return request(`/api/lookup?barcode=${encodeURIComponent(barcode)}`);
 }

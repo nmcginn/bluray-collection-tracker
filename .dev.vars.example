@@ -2,6 +2,7 @@
 # In production these are set with: wrangler pages secret put <NAME>
 
 OMDB_API_KEY=your_omdb_key_here
-UPC_PROVIDER_KEY=your_upc_provider_key_here
+# Optional: leave unset to use UPCitemdb's keyless trial endpoint (~100 lookups/day).
+# UPC_PROVIDER_KEY=your_upcitemdb_paid_key_here
 APP_PASSWORD=choose_a_login_password
 SESSION_SECRET=a_long_random_string_for_signing_cookies
